@@ -21,6 +21,14 @@ public class ResponseGroup {
 	@ManyToOne
 	private TSAssignment assignment;
 
+	public TSAssignment getAssignment() {
+		return assignment;
+	}
+
+	public void setAssignment(TSAssignment assignment) {
+		this.assignment = assignment;
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -49,7 +57,5 @@ public class ResponseGroup {
 	public String toString() {
 		return "ResponseGroup [id=" + id + ", responses=" + responses + ", header=" + header + "]";
 	}
-
-	
 
 }

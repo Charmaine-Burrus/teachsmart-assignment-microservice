@@ -31,6 +31,14 @@ public class Response {
 		this.answer = answer;
 	}
 
+	public ResponseGroup getResponseGroup() {
+		return responseGroup;
+	}
+
+	public void setResponseGroup(ResponseGroup responseGroup) {
+		this.responseGroup = responseGroup;
+	}
+
 	@Override
 	public String toString() {
 		return "Response [id=" + id + ", answer=" + answer + "]";
