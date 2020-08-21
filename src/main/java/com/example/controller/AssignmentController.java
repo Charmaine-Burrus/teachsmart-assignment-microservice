@@ -27,14 +27,7 @@ public class AssignmentController {
 	@Autowired
 	private AssignmentService service;
 	
-//	@RequestMapping(path="/addAssignmentData")
-//	public void addAssignmentData() {
-//		service.saveAssignmentData();
-//	}
-	
-	//in real life
 	@RequestMapping(value="/addAssignmentResults",
-//			produces=MediaType.APPLICATION_JSON_VALUE,
 			consumes=MediaType.MULTIPART_FORM_DATA_VALUE,
 			method=RequestMethod.POST)
 	@ResponseBody
@@ -61,8 +54,8 @@ public class AssignmentController {
 		};
 	}
 	
-	//will use something similar to this to get all the assignments for one user
-	@RequestMapping(value="/findAllUsers",
+	//in TS, use something similar to this to get all the assignments for ONE USER
+	@RequestMapping(value="/findAllAssignments",
 			produces=MediaType.APPLICATION_JSON_VALUE,
 			method=RequestMethod.GET)
 	@ResponseBody

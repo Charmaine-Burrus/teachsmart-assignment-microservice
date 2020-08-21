@@ -28,22 +28,6 @@ public class TSAssignment {
 	
 	@Column(name="total_points")
 	private int totalPoints;
-
-//	//FML: JPA & Hibernate don't support any Collection type as a map value
-//	//after watching Thorben vid
-//	//this is if the name="" thing is already an attribute of whatever you are mapping
-//	@MapKey(name="header")
-//	//this is if the name="" thing isn't an attribute of whatever you were mapping... it will make an addtional column with this name
-//	@MapKeyColumn(name="header")
-	
-	//He also put some annotation here about JoinTable but didn't use it so idk if it's necessary
-//	@OneToMany
-//	@JoinTable(
-//		      name="AssignmentResponseGroup",
-//		      joinColumns={@JoinColumn(name="assignmentName", referencedColumnName="id")},
-//		      inverseJoinColumns={@JoinColumn(name="header", referencedColumnName="id")})
-//	@MapKey(name="header")
-//	private Map<String, ResponseGroup> responseGroups = new HashMap<String, ResponseGroup>();
 	
 	@OneToMany(mappedBy = "assignment")
 	private List<ResponseGroup> responseGroups = new ArrayList<>();

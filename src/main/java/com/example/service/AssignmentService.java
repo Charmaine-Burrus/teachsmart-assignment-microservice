@@ -89,7 +89,7 @@ public class AssignmentService {
 		TSAssignment assignment1 = new TSAssignment();
 		// won't need to actually do this (will be taking in a TSAssignment... will need
 		// to get file from it
-		assignment1.setAssignmentName("Unit 0 Quiz - Testing");
+		assignment1.setAssignmentName("Unit 1 Quiz");
 		assignment1.setResponseUrl(
 				"https://docs.google.com/spreadsheets/d/1mFri2MssuA_sCCP93nz5zUtdiF_v1QdNtSmH9nrEmlA/edit#gid=0");
 		assignment1.setTotalPoints(17);
