@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -89,10 +90,10 @@ public class AssignmentService {
 		TSAssignment assignment1 = new TSAssignment();
 		// won't need to actually do this (will be taking in a TSAssignment... will need
 		// to get file from it
-		assignment1.setAssignmentName("Unit 1 Quiz");
+		assignment1.setAssignmentName("The Ivory Hustle 2");
 		assignment1.setResponseUrl(
 				"https://docs.google.com/spreadsheets/d/1mFri2MssuA_sCCP93nz5zUtdiF_v1QdNtSmH9nrEmlA/edit#gid=0");
-		assignment1.setTotalPoints(17);
+		assignment1.setTotalPoints(14);
 		// assignmentRepo.save(assignment1);
 
 		TSAssignment savedAssignment = assignmentRepo.save(assignment1);
@@ -112,21 +113,21 @@ public class AssignmentService {
 
 	public void representingController(TSAssignment assignment) {
 		HashMap<Double, ArrayList<String>> scorestoStudentsMap = getScoretoStudentsMap(assignment);
+		//this is exclusive (so can't use it for any averages... because if 3 ppl got a 17, it's the same as only 1 person getting a 17)
 		Set<Double> numeratorsSet = scorestoStudentsMap.keySet();
-		ArrayList<Double> numerators = new ArrayList<Double>();
-		for (Double numerator : numeratorsSet) {
-			numerators.add(numerator);
-		}
+		double lowestScore = Collections.min(numeratorsSet); 
+		double highestScore = Collections.max(numeratorsSet); 
 		
 		ArrayList<String> scoreStrings = getArrayListOfScoreString(assignment);
 		ArrayList<Double> allScores = getArrayOfNumerators(scoreStrings);
-		// REACT: Numerators will be values for Graph 3 --- //this one doesn't seems to be getting all the scoress.. this is because it's consolidating duplicates
+		
+		// REACT: Numerators will be values for JSON object for ChartData for Graph 3 --- //this one doesn't seems to be getting all the scoress.. this is because it's consolidating duplicates
 		System.out.println("For Graph 3: " + allScores);
 		
-		double averageScore = getMeanAverage(allScores);
-		double lowestScore = getLowestScore(numerators);
-		double highestScore = getHighestScore(numerators);
+		double averageScore = getMeanAverage(allScores);	
+		
 		ArrayList<String> studentsWithHighestScore = scorestoStudentsMap.get(highestScore);
+		
 		// REACT: All of this is data for table
 		System.out.println("averageScore: " + averageScore);
 		System.out.println("lowestScore: " + lowestScore);
@@ -141,28 +142,6 @@ public class AssignmentService {
 		// use .getKeySet and find highest one... then get it's values... this is
 		// winning class
 
-	}
-
-	public double getHighestScore(List<Double> numerators) {
-		double highestScore = numerators.get(0);
-		for (int i = 1; i < numerators.size(); i++) {
-			double score = numerators.get(i);
-			if (score > highestScore) {
-				highestScore = score;
-			}
-		}
-		return highestScore;
-	}
-
-	public double getLowestScore(List<Double> numerators) {
-		double lowestScore = numerators.get(0);
-		for (int i = 1; i < numerators.size(); i++) {
-			double score = numerators.get(i);
-			if (score < lowestScore) {
-				lowestScore = score;
-			}
-		}
-		return lowestScore;
 	}
 	
 	public ArrayList<String> getArrayListOfScoreString(TSAssignment assignment) {
@@ -198,6 +177,11 @@ public class AssignmentService {
 			}
 		}
 
+		if (students == null || scores == null) {
+			//should I throw an exception instead?
+			return null;
+		}
+		
 		for (int i = 0; i < students.getResponses().size(); i++) {
 			double numerator = getNumeratorForScore(scores.getResponses().get(i).getAnswer());
 			ArrayList<String> currStudents = scorestoStudentsMap.get(numerator);
