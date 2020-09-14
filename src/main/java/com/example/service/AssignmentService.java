@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.dto.AssignmentDTO;
+import com.example.model.AssignmentAnalysis;
 import com.example.model.Response;
 import com.example.model.ResponseGroup;
 import com.example.model.TSAssignment;
@@ -111,7 +112,9 @@ public class AssignmentService {
 	// switch within a certain range, add to that letter grade
 	// return array of grades and matching array of percentages
 
-	public void representingController(TSAssignment assignment) {
+	public AssignmentAnalysis createAssignmentAnalysis(TSAssignment assignment) {
+		AssignmentAnalysis analysis = new AssignmentAnalysis();
+		
 		HashMap<Double, ArrayList<String>> scorestoStudentsMap = getScoretoStudentsMap(assignment);
 		//this is exclusive (so can't use it for any averages... because if 3 ppl got a 17, it's the same as only 1 person getting a 17)
 		Set<Double> numeratorsSet = scorestoStudentsMap.keySet();
@@ -120,28 +123,39 @@ public class AssignmentService {
 		
 		ArrayList<String> scoreStrings = getArrayListOfScoreString(assignment);
 		ArrayList<Double> allScores = getArrayOfNumerators(scoreStrings);
+		ArrayList<Double> allScorePercentages = getArrayOfScorePercentages(scoreStrings);
 		
-		// REACT: Numerators will be values for JSON object for ChartData for Graph 3 --- //this one doesn't seems to be getting all the scoress.. this is because it's consolidating duplicates
-		System.out.println("For Graph 3: " + allScores);
+		//TODO: ARE WE SURE? THIS SHOULDN'T BE HAPPENING  //this one doesn't seems to be getting all the scores.. this is because it's consolidating duplicates
+		// REACT: Numerators will be values for JSON object for ChartData for Graph 3
+		//System.out.println("For Graph 3: " + allScores);
+		analysis.setScorePercentages(allScorePercentages);
 		
 		double averageScore = getMeanAverage(allScores);	
 		
 		ArrayList<String> studentsWithHighestScore = scorestoStudentsMap.get(highestScore);
 		
-		// REACT: All of this is data for table
-		System.out.println("averageScore: " + averageScore);
-		System.out.println("lowestScore: " + lowestScore);
-		System.out.println("highestScore: " + highestScore);
-		System.out.println("studentsWithHighestScore: " + studentsWithHighestScore);
+		//if this isn't available, we could use getDenominatorForScore(String score) below
+		analysis.setTotalPoints(assignment.getTotalPoints());
+		analysis.setAverageScore(averageScore);
+		//System.out.println("averageScore: " + averageScore);
+		analysis.setLowestScore(lowestScore);
+		//System.out.println("lowestScore: " + lowestScore);
+		analysis.setHighestScore(highestScore);
+		//System.out.println("highestScore: " + highestScore);
+		analysis.setHighestScoringStudents(studentsWithHighestScore);
+		//System.out.println("studentsWithHighestScore: " + studentsWithHighestScore);
 
 		ArrayList<Integer> percentByLetterGrade = getPercentByLetterGrade(assignment);
 		// REACT: percentByLetterGrade is values for Graph 1 (labels are A,B,C,D,F)
-		System.out.println("Graph 1 (labels are A,B,C,D,F): " + percentByLetterGrade);
+		analysis.setPortionOfScoresByPercentages(percentByLetterGrade);
+		//System.out.println("Graph 1 (labels are A,B,C,D,F): " + percentByLetterGrade);
 
 		// get HashMap of average percent to Hr... will be graphed
 		// use .getKeySet and find highest one... then get it's values... this is
 		// winning class
 
+		System.out.println(analysis);
+		return analysis;
 	}
 	
 	public ArrayList<String> getArrayListOfScoreString(TSAssignment assignment) {
@@ -201,12 +215,26 @@ public class AssignmentService {
 		return Double.parseDouble(numerator);
 	}
 	
+	public double getDenominatorForScore(String score) {
+		String denominator = score.substring(score.indexOf('/'));
+		return Double.parseDouble(denominator);
+	}
+	
 	public ArrayList<Double> getArrayOfNumerators(ArrayList<String> scores) { 
 		ArrayList<Double> numerators = new ArrayList<Double>(); 
 		for (int i=0; i<scores.size(); i++) { 
 			numerators.add(getNumeratorForScore(scores.get(i))); 	
 		} 
 		return numerators; 		
+	}
+	
+	public ArrayList<Double> getArrayOfScorePercentages(ArrayList<String> scores) {
+		ArrayList<Double> scorePercentages = new ArrayList<Double>(); 
+		double denominator = getDenominatorForScore(scores.get(0));
+		for (int i=0; i<scores.size(); i++) { 
+			scorePercentages.add(getNumeratorForScore(scores.get(i))/denominator); 	
+		} 
+		return scorePercentages;
 	}
 
 	/*

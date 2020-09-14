@@ -47,7 +47,7 @@ public class AssignmentController {
 		Optional<TSAssignment> thisAssignment = service.findById((long)1699);
 		if (thisAssignment.isPresent()) {
 			TSAssignment realAssignment = thisAssignment.get();
-			service.representingController(realAssignment);
+			service.createAssignmentAnalysis(realAssignment);
 		}
 		else {
 			System.out.println("Assignment not found");

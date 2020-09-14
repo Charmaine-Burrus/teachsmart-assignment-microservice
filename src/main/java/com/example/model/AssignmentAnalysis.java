@@ -1,22 +1,30 @@
 package com.example.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class AssignmentAnalysis {
 	
+	//x
 	private double totalPoints;
+	//x
 	private double averageScore;
+	//x
 	private double highestScore;
+	//x
 	private double lowestScore;
-	private String[] highestScoringStudents;
-	private String[] highestScoringClasses;
+	//x
+	private ArrayList<String> highestScoringStudents;
+	private ArrayList<String> highestScoringClasses;
 	
-	private double[] scorePercentages;
+	//x
+	ArrayList<Double> scorePercentages;
 	
 	private String[] classes;
 	private double[] scorePercentagesByClass;
 	
-	private double[] portionOfScoresByPercentages;
+	//x
+	ArrayList<Integer> portionOfScoresByPercentages;
 
 	public double getTotalPoints() {
 		return totalPoints;
@@ -50,27 +58,27 @@ public class AssignmentAnalysis {
 		this.lowestScore = lowestScore;
 	}
 
-	public String[] getHighestScoringStudents() {
+	public ArrayList<String> getHighestScoringStudents() {
 		return highestScoringStudents;
 	}
 
-	public void setHighestScoringStudents(String[] highestScoringStudents) {
+	public void setHighestScoringStudents(ArrayList<String> highestScoringStudents) {
 		this.highestScoringStudents = highestScoringStudents;
 	}
 
-	public String[] getHighestScoringClasses() {
+	public ArrayList<String> getHighestScoringClasses() {
 		return highestScoringClasses;
 	}
 
-	public void setHighestScoringClasses(String[] highestScoringClasses) {
+	public void setHighestScoringClasses(ArrayList<String> highestScoringClasses) {
 		this.highestScoringClasses = highestScoringClasses;
 	}
 
-	public double[] getScorePercentages() {
+	public ArrayList<Double> getScorePercentages() {
 		return scorePercentages;
 	}
 
-	public void setScorePercentages(double[] scorePercentages) {
+	public void setScorePercentages(ArrayList<Double> scorePercentages) {
 		this.scorePercentages = scorePercentages;
 	}
 
@@ -90,23 +98,22 @@ public class AssignmentAnalysis {
 		this.scorePercentagesByClass = scorePercentagesByClass;
 	}
 
-	public double[] getPortionOfScoresByPercentages() {
+	public ArrayList<Integer> getPortionOfScoresByPercentages() {
 		return portionOfScoresByPercentages;
 	}
 
-	public void setPortionOfScoresByPercentages(double[] portionOfScoresByPercentages) {
+	public void setPortionOfScoresByPercentages(ArrayList<Integer> portionOfScoresByPercentages) {
 		this.portionOfScoresByPercentages = portionOfScoresByPercentages;
 	}
 
 	@Override
 	public String toString() {
 		return "AssignmentAnalysis [totalPoints=" + totalPoints + ", averageScore=" + averageScore + ", highestScore="
-				+ highestScore + ", lowestScore=" + lowestScore + ", highestScoringStudents="
-				+ Arrays.toString(highestScoringStudents) + ", highestScoringClasses="
-				+ Arrays.toString(highestScoringClasses) + ", scorePercentages=" + Arrays.toString(scorePercentages)
+				+ highestScore + ", lowestScore=" + lowestScore + ", highestScoringStudents=" + highestScoringStudents
+				+ ", highestScoringClasses=" + highestScoringClasses + ", scorePercentages=" + scorePercentages
 				+ ", classes=" + Arrays.toString(classes) + ", scorePercentagesByClass="
 				+ Arrays.toString(scorePercentagesByClass) + ", portionOfScoresByPercentages="
-				+ Arrays.toString(portionOfScoresByPercentages) + "]";
+				+ portionOfScoresByPercentages + "]";
 	}
 
 }
